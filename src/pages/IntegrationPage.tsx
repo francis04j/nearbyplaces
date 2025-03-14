@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Code, Server, Database, Globe, Smartphone, Laptop } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Code, Server, Database, Globe, Smartphone, Laptop, Gamepad2 } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 
 const IntegrationPage = () => {
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('javascript');
+
+  const handlePlaygroundClick = () => {
+    if (currentUser) {
+      navigate('/playground');
+    } else {
+      navigate('/signup', { state: { from: '/playground' } });
+    }
+  };
 
   const codeSnippets = {
     javascript: `// Install the CloseBy SDK
@@ -126,7 +137,6 @@ class Program
 
   return (
     <div>
-      {/* Header */}
       <section className="bg-gradient-to-r from-indigo-900 to-blue-900 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl font-bold mb-4">Integrate CloseBy Into Your Application</h1>
@@ -134,6 +144,13 @@ class Program
             Our flexible APIs and SDKs make it easy to add powerful location services to any application.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
+            <button 
+              onClick={handlePlaygroundClick}
+              className="bg-indigo-500 text-white px-6 py-3 rounded-md font-medium hover:bg-indigo-600 transition flex items-center gap-2"
+            >
+              <Gamepad2 className="h-5 w-5" />
+              Try Playground
+            </button>
             <a href="#sdks" className="bg-white text-indigo-900 px-6 py-3 rounded-md font-medium hover:bg-indigo-100 transition">
               Explore SDKs
             </a>

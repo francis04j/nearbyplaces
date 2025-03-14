@@ -93,12 +93,12 @@ const HomePage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="flex">
               <div className="mr-4">
-                <Shield className="h-6 w-6 text-indigo-600" />
+                <Globe className="h-6 w-6 text-indigo-600" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold mb-2">Enterprise-grade Security</h3>
+                <h3 className="text-lg font-semibold mb-2">Better than Google</h3>
                 <p className="text-gray-600">
-                  Your data is protected with industry-leading security measures and compliance with global privacy regulations.
+                  Our API result is the correct and reflective of what you see on our site unlike Google. We also support all types of amenities unlike Google API.
                 </p>
               </div>
             </div>
@@ -132,9 +132,9 @@ const HomePage = () => {
                 <Globe className="h-6 w-6 text-indigo-600" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold mb-2">Global Coverage</h3>
+                <h3 className="text-lg font-semibold mb-2">UK Coverage</h3>
                 <p className="text-gray-600">
-                  Our services cover over 200 countries and territories, providing truly global location intelligence.
+                  Our services cover over all counties and regions, providing truly british location intelligence.
                 </p>
               </div>
             </div>

@@ -4,14 +4,17 @@ import { Check, X } from 'lucide-react';
 
 const PricingPage = () => {
   const [isAnnual, setIsAnnual] = useState(true);
+  const [selectedPlan, setSelectedPlan] = useState('Business');
 
   const plans = [
     {
-      name: "Starter",
-      description: "Perfect for small businesses and startups",
+      name: "Pay as you go",
+      title: "Perfect for Small Projects",
+      description: "Get started with essential location data for your application",
       monthlyPrice: 29,
       annualPrice: 19,
       features: [
+        "Pay-as-you-go with no bounded commitment",
         "Up to 1,000 location queries per month",
         "Basic analytics dashboard",
         "Standard API access",
@@ -27,10 +30,32 @@ const PricingPage = () => {
       ]
     },
     {
-      name: "Professional",
-      description: "Ideal for growing businesses with moderate needs",
+      name: "Growth",
+      title: "Scale with Confidence",
+      description: "Advanced features and support for growing businesses",
       monthlyPrice: 199,
       annualPrice: 149,
+      popular: false,
+      features: [
+        "Up to 10,000 location queries per month",
+        "Advanced analytics dashboard",
+        "Full API access",
+        "Priority email & chat support",
+        "5 projects",
+        "30-day data retention",
+        "Tailored for teams looking to scale their operations"
+      ],
+      notIncluded: [
+        "Dedicated account manager",
+        "SLA guarantees"
+      ]
+    },
+    {
+      name: "Business",
+      title: "Customised to deliver value for your business",
+      description: "Designed for large teams with extensive operational needs",
+      monthlyPrice: 299,
+      annualPrice: 249,
       popular: true,
       features: [
         "Up to 10,000 location queries per month",
@@ -48,7 +73,8 @@ const PricingPage = () => {
     },
     {
       name: "Enterprise",
-      description: "For large organizations with complex requirements",
+      title: "Ultimate Power & Control",
+      description: "Advanced support and features for critical operations",
       features: [
         "Unlimited location queries",
         "Enterprise analytics suite",
@@ -94,24 +120,32 @@ const PricingPage = () => {
       {/* Pricing Cards */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {plans.map((plan, index) => (
               <div 
-                key={index} 
-                className={`bg-white rounded-lg shadow-lg overflow-hidden ${plan.popular ? 'ring-2 ring-indigo-600 transform md:-translate-y-4' : ''}`}
+                key={index}
+                onClick={() => setSelectedPlan(plan.name)}
+                className={`bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer transition-all duration-300 ${
+                  selectedPlan === plan.name 
+                    ? 'ring-2 ring-indigo-600 transform scale-105' 
+                    : 'hover:shadow-xl hover:transform hover:scale-105'
+                }`}
               >
                 {plan.popular && (
                   <div className="bg-indigo-600 text-white text-center py-2 text-sm font-semibold">
                     MOST POPULAR
                   </div>
                 )}
-                <div className="p-8">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-                  <p className="text-gray-600 mb-6">{plan.description}</p>
-                  <div className="mb-6">
+                <div className="p-6 sm:p-8">
+                  <div className="text-center mb-8">
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
+                    <h4 className="text-base sm:text-lg font-semibold text-indigo-600 mb-2">{plan.title}</h4>
+                    <p className="text-sm sm:text-base text-gray-600">{plan.description}</p>
+                  </div>
+                  <div className="mb-6 text-center">
                     {plan.monthlyPrice ? (
                       <>
-                        <span className="text-4xl font-bold text-gray-900">
+                        <span className="text-3xl sm:text-4xl font-bold text-gray-900">
                           ${isAnnual ? plan.annualPrice : plan.monthlyPrice}
                         </span>
                         <span className="text-gray-600">/month</span>
@@ -120,19 +154,19 @@ const PricingPage = () => {
                         )}
                       </>
                     ) : (
-                      <span className="text-2xl font-bold text-gray-900">Custom Pricing</span>
+                      <span className="text-xl sm:text-2xl font-bold text-gray-900">Custom Pricing</span>
                     )}
                   </div>
                   
                   <Link 
-                    to={plan.name === "Enterprise" ? "/contact-sales" : "/demo"} 
-                    className={`block w-full text-center py-3 rounded-md font-medium mb-6 ${
-                      plan.popular 
-                        ? 'bg-indigo-600 text-white hover:bg-indigo-700' 
+                    to={plan.name === "Enterprise" ? "/contact-sales" : "/signup"} 
+                    className={`block w-full text-center py-3 rounded-md font-medium mb-6 transition-colors duration-200 ${
+                      selectedPlan === plan.name
+                        ? 'bg-indigo-600 text-white hover:bg-indigo-700'
                         : 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200'
                     }`}
                   >
-                    {plan.name === "Enterprise" ? "Contact Sales" : "Get Started"}
+                    {plan.name === "Enterprise" ? "Contact Sales" : "Start free trial"}
                   </Link>
                   
                   <div className="space-y-4">
@@ -140,7 +174,7 @@ const PricingPage = () => {
                     {plan.features.map((feature, i) => (
                       <div key={i} className="flex items-start">
                         <Check className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
-                        <span className="text-gray-600 text-sm">{feature}</span>
+                        <span className="text-sm text-gray-600">{feature}</span>
                       </div>
                     ))}
                     
@@ -150,7 +184,7 @@ const PricingPage = () => {
                         {plan.notIncluded.map((feature, i) => (
                           <div key={i} className="flex items-start">
                             <X className="h-5 w-5 text-gray-400 mr-2 flex-shrink-0" />
-                            <span className="text-gray-500 text-sm">{feature}</span>
+                            <span className="text-sm text-gray-500">{feature}</span>
                           </div>
                         ))}
                       </>

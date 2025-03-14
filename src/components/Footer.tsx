@@ -42,12 +42,12 @@ const Footer = () => {
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold mb-4">Resources</h3>
+            <h3 className="text-lg font-semibold mb-4">Legal</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-400 hover:text-white">Documentation</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">API Reference</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Blog</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Case Studies</a></li>
+              <li><Link to="/terms" className="text-gray-400 hover:text-white">Terms & Conditions</Link></li>
+              <li><a href="#" className="text-gray-400 hover:text-white">Privacy Policy</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white">Cookie Policy</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white">Acceptable Use</a></li>
             </ul>
           </div>
           

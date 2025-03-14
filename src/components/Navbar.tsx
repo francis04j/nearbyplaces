@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { Menu, X, Database, ChevronDown, MapPin, History, Wifi, TrendingUp } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Menu, X, Database, ChevronDown, MapPin, History, Wifi, TrendingUp, Gamepad2, UserCircle } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 
 const Navbar = () => {
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isProductMenuOpen, setIsProductMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -13,6 +16,7 @@ const Navbar = () => {
       description: 'Discover nearby points of interest and amenities',
       items: [
         { name: 'DayCare/Nursery', path: '/product/amenities/daycare' },
+        { name: 'API Playground', path: '/playground' },
         { name: 'Gym', path: '#' },
         { name: 'Supermarkets', path: '#' },
         { name: 'Restaurants', path: '#' },
@@ -46,6 +50,14 @@ const Navbar = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  const handleAccountClick = () => {
+    if (currentUser) {
+      navigate('/account');
+    } else {
+      navigate('/signup');
+    }
+  };
 
   return (
     <nav className="bg-indigo-900 text-white">
@@ -117,6 +129,12 @@ const Navbar = () => {
               <Link to="/demo" className="px-3 py-2 rounded-md text-sm font-medium bg-indigo-600 hover:bg-indigo-700">
                 Book a Demo
               </Link>
+              <button
+                onClick={handleAccountClick}
+                className="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-800 flex items-center"
+              >
+                <UserCircle className="h-5 w-5" />
+              </button>
             </div>
           </div>
           <div className="md:hidden">
@@ -188,6 +206,15 @@ const Navbar = () => {
             >
               Book a Demo
             </Link>
+            <button
+              onClick={() => {
+                handleAccountClick();
+                setIsOpen(false);
+              }}
+              className="block w-full text-left px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-800"
+            >
+              Account
+            </button>
           </div>
         </div>
       )}
