@@ -17,12 +17,13 @@ const HomePage = () => {
                 Using the power of A.I and Data analytics, CloseBy provides location data to help businesses create exceptional customer experiences and make smarter decisions.
               </p>
               <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                <Link to="/playground" className="bg-transparent border border-white text-white px-6 py-3 rounded-md font-medium text-center hover:bg-white/10 transition">
+                  Try Playground
+                </Link>
                 <Link to="/demo" className="bg-white text-indigo-900 px-6 py-3 rounded-md font-medium text-center hover:bg-indigo-100 transition">
                   Book a Demo
                 </Link>
-                <Link to="/pricing" className="bg-transparent border border-white text-white px-6 py-3 rounded-md font-medium text-center hover:bg-white/10 transition">
-                  View Pricing
-                </Link>
+                
               </div>
             </div>
             <div className="hidden md:block">
@@ -178,8 +179,8 @@ const HomePage = () => {
               <Link to="/demo" className="bg-white text-indigo-900 px-6 py-3 rounded-md font-medium text-center hover:bg-indigo-100 transition">
                 Book a Demo
               </Link>
-              <Link to="/pricing" className="bg-transparent border border-white text-white px-6 py-3 rounded-md font-medium text-center hover:bg-white/10 transition">
-                View Pricing
+              <Link to="/playground" className="bg-transparent border border-white text-white px-6 py-3 rounded-md font-medium text-center hover:bg-white/10 transition">
+                Try Playground
               </Link>
             </div>
           </div>
