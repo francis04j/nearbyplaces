@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, Database, ChevronDown, MapPin, History, Wifi, TrendingUp, Gamepad2, UserCircle } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { trackEvent } from '../utils/analytics';
 
 const Navbar = () => {
   const { currentUser } = useAuth();
@@ -52,6 +53,12 @@ const Navbar = () => {
   }, []);
 
   const handleAccountClick = () => {
+    trackEvent({
+      category: 'Navigation',
+      action: 'Click',
+      label: currentUser ? 'Account' : 'Sign Up'
+    });
+    
     if (currentUser) {
       navigate('/account');
     } else {
@@ -59,19 +66,43 @@ const Navbar = () => {
     }
   };
 
+  const handleNavClick = (label: string) => {
+    trackEvent({
+      category: 'Navigation',
+      action: 'Click',
+      label
+    });
+  };
+
+  const handleProductItemClick = (name: string) => {
+    trackEvent({
+      category: 'Product Navigation',
+      action: 'Click',
+      label: name
+    });
+    setIsProductMenuOpen(false);
+  };
+
   return (
     <nav className="bg-indigo-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <Link to="/" className="flex items-center">
+            <Link to="/" onClick={() => handleNavClick('Home')} className="flex items-center">
               <Database className="h-8 w-8 mr-2" />
-              <span className="text-xl font-bold">CloseBy</span>
+              <div className="flex flex-col">
+                <span className="text-xl font-bold">CloseBy</span>
+                <span className="text-xs italic -mt-1">amenities</span>
+              </div>
             </Link>
           </div>
           <div className="hidden md:block relative">
             <div className="ml-10 flex items-baseline space-x-4">
-              <Link to="/" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-800">
+              <Link 
+                to="/" 
+                onClick={() => handleNavClick('Home')}
+                className="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-800"
+              >
                 Home
               </Link>
               
@@ -79,7 +110,10 @@ const Navbar = () => {
               <div className="relative" ref={menuRef}>
                 <button
                   className="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-800 flex items-center"
-                  onClick={() => setIsProductMenuOpen(!isProductMenuOpen)}
+                  onClick={() => {
+                    setIsProductMenuOpen(!isProductMenuOpen);
+                    handleNavClick('Product Menu');
+                  }}
                 >
                   Product
                   <ChevronDown className={`ml-1 h-4 w-4 transition-transform duration-200 ${isProductMenuOpen ? 'rotate-180' : ''}`} />
@@ -104,7 +138,7 @@ const Navbar = () => {
                                       key={item.name}
                                       to={item.path}
                                       className="block text-sm text-gray-600 hover:bg-indigo-600 hover:text-white px-2 py-1 rounded-md transition-colors duration-150"
-                                      onClick={() => setIsProductMenuOpen(false)}
+                                      onClick={() => handleProductItemClick(item.name)}
                                     >
                                       {item.name}
                                     </Link>
@@ -120,13 +154,25 @@ const Navbar = () => {
                 )}
               </div>
 
-              <Link to="/pricing" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-800">
+              <Link 
+                to="/pricing" 
+                onClick={() => handleNavClick('Pricing')}
+                className="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-800"
+              >
                 Pricing
               </Link>
-              <Link to="/integration" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-800">
+              <Link 
+                to="/integration" 
+                onClick={() => handleNavClick('Integration')}
+                className="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-800"
+              >
                 Integration
               </Link>
-              <Link to="/demo" className="px-3 py-2 rounded-md text-sm font-medium bg-indigo-600 hover:bg-indigo-700">
+              <Link 
+                to="/demo" 
+                onClick={() => handleNavClick('Book a Demo')}
+                className="px-3 py-2 rounded-md text-sm font-medium bg-indigo-600 hover:bg-indigo-700"
+              >
                 Book a Demo
               </Link>
               <button
@@ -155,7 +201,10 @@ const Navbar = () => {
             <Link 
               to="/" 
               className="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-800"
-              onClick={() => setIsOpen(false)}
+              onClick={() => {
+                handleNavClick('Home');
+                setIsOpen(false);
+              }}
             >
               Home
             </Link>
@@ -175,7 +224,10 @@ const Navbar = () => {
                         key={item.name}
                         to={item.path}
                         className="block px-3 py-2 text-sm text-gray-300 hover:bg-indigo-800 rounded-md"
-                        onClick={() => setIsOpen(false)}
+                        onClick={() => {
+                          handleProductItemClick(item.name);
+                          setIsOpen(false);
+                        }}
                       >
                         {item.name}
                       </Link>
@@ -188,21 +240,30 @@ const Navbar = () => {
             <Link 
               to="/pricing" 
               className="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-800"
-              onClick={() => setIsOpen(false)}
+              onClick={() => {
+                handleNavClick('Pricing');
+                setIsOpen(false);
+              }}
             >
               Pricing
             </Link>
             <Link 
               to="/integration" 
               className="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-800"
-              onClick={() => setIsOpen(false)}
+              onClick={() => {
+                handleNavClick('Integration');
+                setIsOpen(false);
+              }}
             >
               Integration
             </Link>
             <Link 
               to="/demo" 
               className="block px-3 py-2 rounded-md text-base font-medium bg-indigo-600 hover:bg-indigo-700"
-              onClick={() => setIsOpen(false)}
+              onClick={() => {
+                handleNavClick('Book a Demo');
+                setIsOpen(false);
+              }}
             >
               Book a Demo
             </Link>

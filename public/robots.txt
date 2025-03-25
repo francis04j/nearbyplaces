@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.amenities-closeby.co.uk/sitemap.xml
+
+Disallow: /account
+Disallow: /playground
+Disallow: /signup

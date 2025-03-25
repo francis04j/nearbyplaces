@@ -1,10 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, BarChart, Zap, Shield, Users, Globe } from 'lucide-react';
+import SEO from '../components/SEO';
+import { trackEvent } from '../utils/analytics';
 
 const HomePage = () => {
+  const handleExternalLinkClick = () => {
+    trackEvent({
+      category: 'External Link',
+      action: 'Click',
+      label: 'Places Close By'
+    });
+  };
+
   return (
     <div>
+      <SEO 
+        title="Location Data Intelligence for Modern Business"
+        description="Using the power of A.I and Data analytics, CloseBy provides location data to help businesses create exceptional customer experiences and make smarter decisions."
+      />
+      
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-indigo-900 to-blue-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
@@ -23,7 +38,6 @@ const HomePage = () => {
                 <Link to="/demo" className="bg-white text-indigo-900 px-6 py-3 rounded-md font-medium text-center hover:bg-indigo-100 transition">
                   Book a Demo
                 </Link>
-                
               </div>
             </div>
             <div className="hidden md:block">
@@ -32,6 +46,17 @@ const HomePage = () => {
                 alt="Nearby amenities" 
                 className="rounded-lg shadow-xl"
               />
+              <div className="text-center mt-2">
+                <a 
+                  href="https://placescloseby.co.uk/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={handleExternalLinkClick}
+                  className="text-indigo-200 hover:text-white text-sm"
+                >
+                  Nearby amenities as seen on placescloseby.co.uk
+                </a>
+              </div>
             </div>
           </div>
         </div>
